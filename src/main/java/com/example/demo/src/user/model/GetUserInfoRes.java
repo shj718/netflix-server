@@ -7,7 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostUserRes {
+public class GetUserInfoRes {
     private long userIdx;
+    private String email;
+    private String password; // 복호화된 비밀번호
+    private String cardNumber;
     private long membershipIdx;
+    private String name;
 }

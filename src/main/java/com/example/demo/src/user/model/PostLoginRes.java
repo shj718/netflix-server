@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class PostLoginRes {
-
-    private int userIdx;
+    private long userIdx;
     private String jwt;
+    private int hasMembership; // 유효한 멤버십 있으면 1, 없으면 0
 }

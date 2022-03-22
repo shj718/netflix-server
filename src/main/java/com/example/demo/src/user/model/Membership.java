@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PostUserRes {
-    private long userIdx;
-    private long membershipIdx;
+public class Membership {
+    private String videoQuality;
+    private long price;
+    private long accessLimit;
 }

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -31,37 +32,9 @@ public class UserProvider {
         this.jwtService = jwtService;
     }
 
-    public List<GetUserRes> getUsers() throws BaseException{
-        try{
-            List<GetUserRes> getUserRes = userDao.getUsers();
-            return getUserRes;
-        }
-        catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
-    public List<GetUserRes> getUsersByEmail(String email) throws BaseException{
-        try{
-            List<GetUserRes> getUsersRes = userDao.getUsersByEmail(email);
-            return getUsersRes;
-        }
-        catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-                    }
 
 
-    public GetUserRes getUser(int userIdx) throws BaseException {
-        try {
-            GetUserRes getUserRes = userDao.getUser(userIdx);
-            return getUserRes;
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
-    public int checkEmail(String email) throws BaseException{
+    public int checkEmail(String email) throws BaseException{ // 중복 이메일 체크
         try{
             return userDao.checkEmail(email);
         } catch (Exception exception){
@@ -69,19 +42,33 @@ public class UserProvider {
         }
     }
 
+    public GetMembershipRes getMembership(long membershipIdx) throws BaseException {
+        try {
+            GetMembershipRes getMembershipRes = userDao.getMembership(membershipIdx);
+            return getMembershipRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
         User user = userDao.getPwd(postLoginReq);
         String password;
-        try {
+        try { // 디비에 저장된 비밀번호 복호화
             password = new AES128(Secret.USER_INFO_PASSWORD_KEY).decrypt(user.getPassword());
         } catch (Exception ignored) {
             throw new BaseException(PASSWORD_DECRYPTION_ERROR);
         }
-
+        // 비밀번호 비교
         if(postLoginReq.getPassword().equals(password)){
-            int userIdx = userDao.getPwd(postLoginReq).getUserIdx();
+            long userIdx = userDao.getPwd(postLoginReq).getUserIdx();
             String jwt = jwtService.createJwt(userIdx);
-            return new PostLoginRes(userIdx,jwt);
+
+            // 멤버십 소유 여부 가져오기
+            int hasMembership = userDao.checkMembership(postLoginReq);
+
+            return new PostLoginRes(userIdx, jwt, hasMembership);
         }
         else{
             throw new BaseException(FAILED_TO_LOGIN);
@@ -89,4 +76,20 @@ public class UserProvider {
 
     }
 
+    public GetUserInfoRes getUserInfo(long userIdx) throws BaseException {
+        try {
+            GetUserInfoRes getUserInfoRes = userDao.getUserInfo(userIdx);
+            // 비밀번호를 그대로 주는 것이 아니라 복호화해서 주기
+            String password;
+            try { // 디비에 저장된 비밀번호 복호화
+                password = new AES128(Secret.USER_INFO_PASSWORD_KEY).decrypt(getUserInfoRes.getPassword());
+            } catch (Exception ignored) {
+                throw new BaseException(PASSWORD_DECRYPTION_ERROR);
+            }
+            getUserInfoRes.setPassword(password);
+            return getUserInfoRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
