@@ -41,12 +41,12 @@ public class UserService {
         String videoQuality;
         long price;
         long accessLimit;
-        if(membershipType == "B") {
+        if(membershipType.equals("B")) {
             videoQuality = "480p";
             price = 9500;
             accessLimit = 1;
         }
-        else if(membershipType == "S") {
+        else if(membershipType.equals("S")) {
             videoQuality = "1080p";
             price = 13500;
             accessLimit = 2;
@@ -82,7 +82,7 @@ public class UserService {
 
             Membership membership = new Membership(setMembership(type).getVideoQuality(), setMembership(type).getPrice(),
                     setMembership(type).getAccessLimit()); // 멤버십 정보 세팅하기
-
+            // TODO: type 왜 다 P로 되는지 체크
             long membershipIdx = userDao.createMembership(postUserReq.getMembershipType(), membership); // 멤버십 생성
             int result = userDao.updateUserMembership(userIdx, membershipIdx); // 회원가입한 유저의 User테이블에 멤버십 idx 넣기
             if(result == 0) {
@@ -119,6 +119,7 @@ public class UserService {
 
     public void createPayment(PostPaymentReq postPaymentReq) throws BaseException {
         try {
+            // TODO: 진짜 이 유저가 가진 membershipIdx가 맞는지 확인하는 코드 추가하기
             int result = userDao.createPayment(postPaymentReq);
             if(result == 0) {
                 throw new BaseException(DATABASE_ERROR);

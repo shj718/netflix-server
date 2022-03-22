@@ -104,11 +104,11 @@ public class UserController {
     /**
      * 멤버십 등록 API (회원가입은 되어있지만, 멤버십이 해지된 경우, 로그인한 유저가 등록 가능)
      * [POST] /users/membership
-     * @return BaseResponse<String>
+     * @return BaseResponse<Long>
      */
     @ResponseBody
     @PostMapping("/membership")
-    public BaseResponse<String> createMembership(@RequestBody PostMembershipReq postMembershipReq) {
+    public BaseResponse<Long> createMembership(@RequestBody PostMembershipReq postMembershipReq) {
         try {
             // TODO: postMembershipReq의 userIdx가 null일 경우 형식적 validation 어떻게 하는지 문의
             if(postMembershipReq.getMembershipType() == null) {
@@ -122,8 +122,7 @@ public class UserController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
             Long membershipIdx = userService.createMembership(postMembershipReq);
-            String result = "membershipIdx : " + membershipIdx.toString();
-            return new BaseResponse<>(result);
+            return new BaseResponse<>(membershipIdx);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
@@ -177,11 +176,11 @@ public class UserController {
 
     /**
      * 계정 및 결제 정보 조회 API
-     * [GET] /users/payment
+     * [GET] /users/account
      * @return BaseResponse<GetUserInfoRes>
      */
     @ResponseBody
-    @GetMapping("/payment")
+    @GetMapping("/account")
     public BaseResponse<GetUserInfoRes> getUserInfo(@RequestParam long userIdx) {
         try {
             //jwt에서 idx 추출.

@@ -22,8 +22,8 @@ public class UserDao {
 
     
     public GetMembershipRes getMembership(long membershipIdx) { // 멤버십 정보
-        String getMembershipQuery = "select id, type, videoQuality, price, accessLimit, date_format(startTime, '%c월 %Y'), " +
-                "date_format(endTime, '%Y년 %c월 %e일'), status from Membership where id = ?";
+        String getMembershipQuery = "select id, type, videoQuality, price, accessLimit, date_format(startTime, '%c월 %Y') as startTime, " +
+                "date_format(endTime, '%Y년 %c월 %e일') as endTime, status from Membership where id = ?";
         long getMembershipParams = membershipIdx;
         return this.jdbcTemplate.queryForObject(getMembershipQuery,
                 (rs, rowNum) -> new GetMembershipRes(
@@ -106,12 +106,12 @@ public class UserDao {
     }
 
     public User getPwd(PostLoginReq postLoginReq){ // 비밀 번호를 포함한 유저 개인 정보
-        String getPwdQuery = "select id, password, email from User where email = ?";
+        String getPwdQuery = "select id, password, email from User where email = ? and status = 'A'";
         String getPwdParams = postLoginReq.getEmail();
 
         return this.jdbcTemplate.queryForObject(getPwdQuery,
                 (rs,rowNum)-> new User(
-                        rs.getLong("userIdx"),
+                        rs.getLong("id"),
                         rs.getString("password"),
                         rs.getString("email")),
                 getPwdParams);

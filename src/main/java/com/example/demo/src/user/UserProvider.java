@@ -44,6 +44,7 @@ public class UserProvider {
 
     public GetMembershipRes getMembership(long membershipIdx) throws BaseException {
         try {
+            // TODO: 진짜 이 유저가 가진 membershipIdx가 맞는지 확인하는 코드 추가하기
             GetMembershipRes getMembershipRes = userDao.getMembership(membershipIdx);
             return getMembershipRes;
         } catch (Exception exception) {
@@ -53,6 +54,12 @@ public class UserProvider {
 
     @Transactional
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
+        // 존재하지 않는 이메일인 경우 예외 처리
+        try {
+            User user = userDao.getPwd(postLoginReq);
+        } catch (Exception ignored) {
+            throw new BaseException(EMAIL_NOT_EXISTS);
+        }
         User user = userDao.getPwd(postLoginReq);
         String password;
         try { // 디비에 저장된 비밀번호 복호화
