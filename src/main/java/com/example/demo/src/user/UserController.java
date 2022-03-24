@@ -18,6 +18,7 @@ import static com.example.demo.utils.ValidationRegex.isRegexMembership;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 

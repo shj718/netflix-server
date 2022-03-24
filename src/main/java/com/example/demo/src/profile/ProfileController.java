@@ -17,6 +17,7 @@ import static com.example.demo.utils.ValidationRegex.*;
 
 @RestController
 @RequestMapping("/profile")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProfileController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
