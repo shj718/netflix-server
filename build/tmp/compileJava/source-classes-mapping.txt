@@ -1,3 +1,5 @@
+com/example/demo/src/WebConfig.java
+ com.example.demo.src.WebConfig
 com/example/demo/src/user/model/GetMembershipRes.java
  com.example.demo.src.user.model.GetMembershipRes
 com/example/demo/src/user/model/PostUserReq.java
@@ -14,6 +16,10 @@ com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
+com/example/demo/src/profile/model/PatchLockPinReq.java
+ com.example.demo.src.profile.model.PatchLockPinReq
+com/example/demo/src/profile/ProfileService.java
+ com.example.demo.src.profile.ProfileService
 com/example/demo/utils/AES128.java
  com.example.demo.utils.AES128
 com/example/demo/config/BaseResponseStatus.java
@@ -22,18 +28,28 @@ com/example/demo/src/user/model/Membership.java
  com.example.demo.src.user.model.Membership
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
+com/example/demo/src/profile/model/GetProfileRes.java
+ com.example.demo.src.profile.model.GetProfileRes
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
+com/example/demo/src/profile/ProfileProvider.java
+ com.example.demo.src.profile.ProfileProvider
 com/example/demo/src/user/model/PostLoginReq.java
  com.example.demo.src.user.model.PostLoginReq
+com/example/demo/src/profile/model/PostProfileReq.java
+ com.example.demo.src.profile.model.PostProfileReq
+com/example/demo/src/profile/ProfileDao.java
+ com.example.demo.src.profile.ProfileDao
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
-com/example/demo/src/user/model/PostUserRes.java
- com.example.demo.src.user.model.PostUserRes
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
 com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
+com/example/demo/src/profile/model/GetProfileInfoRes.java
+ com.example.demo.src.profile.model.GetProfileInfoRes
+com/example/demo/src/profile/model/PostProfileLogInReq.java
+ com.example.demo.src.profile.model.PostProfileLogInReq
 com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/user/UserService.java
@@ -46,5 +62,9 @@ com/example/demo/src/user/model/GetUserInfoRes.java
  com.example.demo.src.user.model.GetUserInfoRes
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
+com/example/demo/src/profile/ProfileController.java
+ com.example.demo.src.profile.ProfileController
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+com/example/demo/src/profile/model/Profile.java
+ com.example.demo.src.profile.model.Profile

@@ -34,6 +34,10 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_MEMBERSHIP(false,2020,"멤버십의 형식을 확인해주세요."),
     PAYMENT_EMPTY_CARD_NUMBER(false,2021,"카드 번호를 입력해주세요."),
     PAYMENT_EMPTY_NAME(false,2022,"이름을 입력해주세요."),
+    INVALID_PROFILE_LOCK_REQUEST(false, 2023, "프로필 잠금을 해제하려면 N을, PIN 번호를 설정하려면 4자리 숫자를 입력해주세요."),
+    EMPTY_PROFILE_LOCK_PIN(false, 2024, "프로필 잠금 PIN 번호를 입력해주세요."),
+    PATCH_EMPTY_PROFILE_LOCK(false,2025,"프로필 잠금 정보를 입력해주세요."),
+    INVALID_PROFILE_LOCK_PIN(false,2026,"PIN 번호의 형식을 확인해주세요."),
 
 
     /**
@@ -46,6 +50,10 @@ public enum BaseResponseStatus {
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"비밀번호가 틀렸습니다."),
     EMAIL_NOT_EXISTS(false,3015,"가입되지 않은 이메일입니다."),
+    EXCEEDED_PROFILES_COUNT(false, 3016, "만들 수 있는 프로필은 최대 5개입니다."),
+    PROFILE_LOGIN_NOT_LOCKED(false,3017,"잠금 설정이 해제된 프로필입니다."),
+    PROFILE_NOT_EXISTS(false,3018,"존재하지 않는 프로필 고유 번호입니다."),
+    FAILED_TO_PROFILE_LOGIN(false,3019,"PIN 번호가 틀렸습니다."),
 
 
 

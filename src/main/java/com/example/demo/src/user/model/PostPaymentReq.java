@@ -9,7 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PostPaymentReq {
     private long userIdx;
-    private long membershipIdx;
+    // private long membershipIdx;
     private String cardNumber;
     private String name;
+    private String membershipType;
 }

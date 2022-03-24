@@ -80,7 +80,6 @@ public class UserProvider {
         else{
             throw new BaseException(FAILED_TO_LOGIN);
         }
-
     }
 
     public GetUserInfoRes getUserInfo(long userIdx) throws BaseException {

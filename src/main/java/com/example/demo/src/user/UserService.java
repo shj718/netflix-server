@@ -60,7 +60,7 @@ public class UserService {
     }
 
     @Transactional
-    public PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
+    public long createUser(PostUserReq postUserReq) throws BaseException {
         //중복
         if(userProvider.checkEmail(postUserReq.getEmail()) ==1){
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
@@ -77,20 +77,34 @@ public class UserService {
         try{
             long userIdx = userDao.createUser(postUserReq); // 유저 생성
 
+            return userIdx;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public long createPayment(PostPaymentReq postPaymentReq) throws BaseException {
+        try {
             String type;
-            type = postUserReq.getMembershipType();
+            type = postPaymentReq.getMembershipType();
 
             Membership membership = new Membership(setMembership(type).getVideoQuality(), setMembership(type).getPrice(),
                     setMembership(type).getAccessLimit()); // 멤버십 정보 세팅하기
-            // TODO: type 왜 다 P로 되는지 체크
-            long membershipIdx = userDao.createMembership(postUserReq.getMembershipType(), membership); // 멤버십 생성
-            int result = userDao.updateUserMembership(userIdx, membershipIdx); // 회원가입한 유저의 User테이블에 멤버십 idx 넣기
-            if(result == 0) {
+
+            long membershipIdx = userDao.createMembership(postPaymentReq.getMembershipType(), membership); // 멤버십 생성
+            long userIdx = postPaymentReq.getUserIdx();
+            int membershipResult = userDao.updateUserMembership(userIdx, membershipIdx); // 회원가입한 유저의 User테이블에 멤버십 idx 넣기
+            if(membershipResult == 0) {
                 throw new BaseException(DATABASE_ERROR);
             }
 
-            return new PostUserRes(userIdx,membershipIdx);
-        } catch (Exception exception) {
+            int result = userDao.createPayment(postPaymentReq);
+            if(result == 0) {
+                throw new BaseException(DATABASE_ERROR);
+            }
+            return membershipIdx;
+        } catch(Exception exception){
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -106,8 +120,16 @@ public class UserService {
 
             long membershipIdx = userDao.createMembership(postMembershipReq.getMembershipType(), membership);
             // 현재 로그인중인 유저의 User테이블에도 멤버십 Idx 넣어주기
-            int result = userDao.updateUserMembership(postMembershipReq.getUserIdx(), membershipIdx);
-            if(result == 0) {
+            int membershipResult = userDao.updateUserMembership(postMembershipReq.getUserIdx(), membershipIdx);
+            if(membershipResult == 0) {
+                throw new BaseException(DATABASE_ERROR);
+            }
+
+            // 결제
+            PostPaymentReq postPaymentReq = new PostPaymentReq(postMembershipReq.getUserIdx(), postMembershipReq.getCardNumber(),
+                    postMembershipReq.getName(), postMembershipReq.getMembershipType());
+            int paymentResult = userDao.createPayment(postPaymentReq);
+            if(paymentResult == 0) {
                 throw new BaseException(DATABASE_ERROR);
             }
 
@@ -117,15 +139,4 @@ public class UserService {
         }
     }
 
-    public void createPayment(PostPaymentReq postPaymentReq) throws BaseException {
-        try {
-            // TODO: 진짜 이 유저가 가진 membershipIdx가 맞는지 확인하는 코드 추가하기
-            int result = userDao.createPayment(postPaymentReq);
-            if(result == 0) {
-                throw new BaseException(DATABASE_ERROR);
-            }
-        } catch(Exception exception){
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
 }

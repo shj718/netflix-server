@@ -38,14 +38,14 @@ public class UserController {
 
 
     /**
-     * 회원 가입 및 멤버십 선택 API
+     * 회원 가입 API
      * [POST] /users/signup
-     * @return BaseResponse<PostUserRes>
+     * @return BaseResponse<Long>
      */
     // Body
     @ResponseBody
     @PostMapping("/signup")
-    public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
+    public BaseResponse<Long> createUser(@RequestBody PostUserReq postUserReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요! (password, membership)
         if(postUserReq.getEmail() == null){
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
@@ -53,21 +53,43 @@ public class UserController {
         if(postUserReq.getPassword() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_PASSWORD);
         }
-        if(postUserReq.getMembershipType() == null) {
-            return new BaseResponse<>(POST_USERS_EMPTY_MEMBERSHIP); // 베이식은 'B', 스탠다드는 'S', 프리미엄은 'P' 받기
-        }
-        //멤버십 정규 표현
-        if(!isRegexMembership(postUserReq.getMembershipType()) || postUserReq.getMembershipType().length() != 1) {
-            return new BaseResponse<>(POST_USERS_INVALID_MEMBERSHIP);
-        }
         //이메일 정규표현
         if(!isRegexEmail(postUserReq.getEmail())){
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
         }
         try{
-            PostUserRes postUserRes = userService.createUser(postUserReq);
-            return new BaseResponse<>(postUserRes);
+            Long userIdx = userService.createUser(postUserReq);
+            return new BaseResponse<>(userIdx);
         } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 신규 회원 결제 정보 및 멤버십 등록 API (회원가입, 로그인 두 경우 모두 사용하므로 Jwt 적용 X)
+     * [POST] /users/payment
+     * @return BaseResponse<Long>
+     */
+    @ResponseBody
+    @PostMapping("/payment")
+    public BaseResponse<Long> createPayment(@RequestBody PostPaymentReq postPaymentReq) {
+        try {
+            if(postPaymentReq.getMembershipType() == null) {
+                return new BaseResponse<>(POST_USERS_EMPTY_MEMBERSHIP); // 베이식은 'B', 스탠다드는 'S', 프리미엄은 'P' 받기
+            }
+            //멤버십 정규 표현
+            if(!isRegexMembership(postPaymentReq.getMembershipType()) || postPaymentReq.getMembershipType().length() != 1) {
+                return new BaseResponse<>(POST_USERS_INVALID_MEMBERSHIP);
+            }
+            if(postPaymentReq.getCardNumber() == null) {
+                return new BaseResponse<>(PAYMENT_EMPTY_CARD_NUMBER);
+            }
+            if(postPaymentReq.getName() == null) {
+                return new BaseResponse<>(PAYMENT_EMPTY_NAME);
+            }
+            long membershipIdx = userService.createPayment(postPaymentReq);
+            return new BaseResponse<>(membershipIdx);
+        } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
@@ -102,7 +124,7 @@ public class UserController {
     }
 
     /**
-     * 멤버십 등록 API (회원가입은 되어있지만, 멤버십이 해지된 경우, 로그인한 유저가 등록 가능)
+     * 기존 회원 멤버십 등록(+ 결제 정보 등록) API (회원가입은 되어있지만, 멤버십이 해지된 경우, 로그인한 유저가 등록 가능)
      * [POST] /users/membership
      * @return BaseResponse<Long>
      */
@@ -110,9 +132,18 @@ public class UserController {
     @PostMapping("/membership")
     public BaseResponse<Long> createMembership(@RequestBody PostMembershipReq postMembershipReq) {
         try {
-            // TODO: postMembershipReq의 userIdx가 null일 경우 형식적 validation 어떻게 하는지 문의
             if(postMembershipReq.getMembershipType() == null) {
                 return new BaseResponse<>(POST_USERS_EMPTY_MEMBERSHIP);
+            }
+            //멤버십 정규 표현
+            if(!isRegexMembership(postMembershipReq.getMembershipType()) || postMembershipReq.getMembershipType().length() != 1) {
+                return new BaseResponse<>(POST_USERS_INVALID_MEMBERSHIP);
+            }
+            if(postMembershipReq.getCardNumber() == null) {
+                return new BaseResponse<>(PAYMENT_EMPTY_CARD_NUMBER);
+            }
+            if(postMembershipReq.getName() == null) {
+                return new BaseResponse<>(PAYMENT_EMPTY_NAME);
             }
             long userIdx = postMembershipReq.getUserIdx();
             //jwt에서 idx 추출.
@@ -124,30 +155,6 @@ public class UserController {
             Long membershipIdx = userService.createMembership(postMembershipReq);
             return new BaseResponse<>(membershipIdx);
         } catch(BaseException exception){
-            return new BaseResponse<>((exception.getStatus()));
-        }
-    }
-
-    /**
-     * 결제 정보 등록 API (회원가입, 로그인 두 경우 모두 사용하므로 Jwt 적용 X 어짜피 Req로 멤버십 Idx를 받으므로 인증 가능)
-     * [POST] /users/payment
-     * @return BaseResponse<String>
-     */
-    @ResponseBody
-    @PostMapping("/payment")
-    public BaseResponse<String> createPayment(@RequestBody PostPaymentReq postPaymentReq) {
-        try {
-            // TODO: userIdx가 null일 경우 형식적 validation
-            if(postPaymentReq.getCardNumber() == null) {
-                return new BaseResponse<>(PAYMENT_EMPTY_CARD_NUMBER);
-            }
-            if(postPaymentReq.getName() == null) {
-                return new BaseResponse<>(PAYMENT_EMPTY_NAME);
-            }
-            userService.createPayment(postPaymentReq);
-            String result = "카드 등록에 성공했습니다.";
-            return new BaseResponse<>(result);
-        } catch(BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }

@@ -10,5 +10,5 @@ import lombok.Setter;
 public class PostUserReq {
     private String email;
     private String password;
-    private String membershipType;
+    // private String membershipType;
 }

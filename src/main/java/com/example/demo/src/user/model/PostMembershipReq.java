@@ -10,4 +10,6 @@ import lombok.Setter;
 public class PostMembershipReq {
     private long userIdx;
     private String membershipType;
+    private String cardNumber;
+    private String name;
 }
