@@ -38,6 +38,9 @@ public enum BaseResponseStatus {
     EMPTY_PROFILE_LOCK_PIN(false, 2024, "프로필 잠금 PIN 번호를 입력해주세요."),
     PATCH_EMPTY_PROFILE_LOCK(false,2025,"프로필 잠금 정보를 입력해주세요."),
     INVALID_PROFILE_LOCK_PIN(false,2026,"PIN 번호의 형식을 확인해주세요."),
+    EMPTY_BROWSE_TYPE(false,2027,"화면 타입을 입력해주세요."),
+    INVALID_BROWSE_TYPE(false,2028,"홈 화면은 H, 시리즈 화면은 S, 영화 화면은 M을 입력해주세요"),
+    EMPTY_GENRE_REQUEST(false,2029,"장르 이름을 입력해주세요."),
 
 
     /**
@@ -54,6 +57,7 @@ public enum BaseResponseStatus {
     PROFILE_LOGIN_NOT_LOCKED(false,3017,"잠금 설정이 해제된 프로필입니다."),
     PROFILE_NOT_EXISTS(false,3018,"존재하지 않는 프로필 고유 번호입니다."),
     FAILED_TO_PROFILE_LOGIN(false,3019,"PIN 번호가 틀렸습니다."),
+    GENRE_NOT_EXISTS(false,3020,"존재하지 않는 장르입니다."),
 
 
 

@@ -203,4 +203,24 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 특정 이메일 가입 여부 조회 API
+     * [GET] /users/check-email
+     * @return BaseResponse<Integer>
+     */
+    @ResponseBody
+    @GetMapping("/check-email")
+    public BaseResponse<Integer> checkUser(@RequestParam String email) {
+        try {
+            //이메일 정규표현
+            if(!isRegexEmail(email)){
+                return new BaseResponse<>(POST_USERS_INVALID_EMAIL);
+            }
+            Integer hasAccount = userProvider.checkEmail(email);
+            return new BaseResponse<>(hasAccount);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

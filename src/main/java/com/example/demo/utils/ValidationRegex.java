@@ -24,5 +24,12 @@ public class ValidationRegex {
         Matcher matcher = pattern.matcher(target);
         return matcher.find();
     }
+
+    public static boolean isRegexBrowseType(String target) {
+        String regex = "[HSM]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(target);
+        return matcher.find();
+    }
 }
 

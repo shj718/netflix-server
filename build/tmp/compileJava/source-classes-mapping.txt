@@ -1,3 +1,5 @@
+com/example/demo/src/browse/BrowseProvider.java
+ com.example.demo.src.browse.BrowseProvider
 com/example/demo/src/user/model/GetMembershipRes.java
  com.example.demo.src.user.model.GetMembershipRes
 com/example/demo/src/user/model/PostUserReq.java
@@ -6,12 +8,16 @@ com/example/demo/config/Constant.java
  com.example.demo.config.Constant
 com/example/demo/src/user/model/PostMembershipReq.java
  com.example.demo.src.user.model.PostMembershipReq
+com/example/demo/src/browse/model/GetSoonRes.java
+ com.example.demo.src.browse.model.GetSoonRes
 com/example/demo/src/user/model/PostPaymentReq.java
  com.example.demo.src.user.model.PostPaymentReq
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
+com/example/demo/src/browse/model/TopTen.java
+ com.example.demo.src.browse.model.TopTen
 com/example/demo/src/user/UserDao.java
  com.example.demo.src.user.UserDao
 com/example/demo/src/profile/model/PatchLockPinReq.java
@@ -22,6 +28,8 @@ com/example/demo/utils/AES128.java
  com.example.demo.utils.AES128
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
+com/example/demo/src/browse/model/GetMainReq.java
+ com.example.demo.src.browse.model.GetMainReq
 com/example/demo/src/user/model/Membership.java
  com.example.demo.src.user.model.Membership
 com/example/demo/src/WebSecurityConfig.java
@@ -30,22 +38,36 @@ com/example/demo/src/profile/model/GetProfileRes.java
  com.example.demo.src.profile.model.GetProfileRes
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
+com/example/demo/src/browse/model/GetMainRes.java
+ com.example.demo.src.browse.model.GetMainRes
 com/example/demo/src/profile/ProfileProvider.java
  com.example.demo.src.profile.ProfileProvider
 com/example/demo/src/user/model/PostLoginReq.java
  com.example.demo.src.user.model.PostLoginReq
+com/example/demo/src/browse/model/GetTopTenRes.java
+ com.example.demo.src.browse.model.GetTopTenRes
 com/example/demo/src/profile/model/PostProfileReq.java
  com.example.demo.src.profile.model.PostProfileReq
 com/example/demo/src/profile/ProfileDao.java
  com.example.demo.src.profile.ProfileDao
+com/example/demo/src/browse/model/GetLatestRes.java
+ com.example.demo.src.browse.model.GetLatestRes
+com/example/demo/src/browse/BrowseController.java
+ com.example.demo.src.browse.BrowseController
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
+com/example/demo/src/browse/model/GetGenreMovieRes.java
+ com.example.demo.src.browse.model.GetGenreMovieRes
+com/example/demo/src/browse/model/GetGenreSeriesRes.java
+ com.example.demo.src.browse.model.GetGenreSeriesRes
 com/example/demo/src/user/UserController.java
  com.example.demo.src.user.UserController
 com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/profile/model/GetProfileInfoRes.java
  com.example.demo.src.profile.model.GetProfileInfoRes
+com/example/demo/src/browse/BrowseService.java
+ com.example.demo.src.browse.BrowseService
 com/example/demo/src/profile/model/PostProfileLogInReq.java
  com.example.demo.src.profile.model.PostProfileLogInReq
 com/example/demo/src/user/model/User.java
@@ -61,6 +83,10 @@ com/example/demo/src/user/model/GetUserInfoRes.java
  com.example.demo.src.user.model.GetUserInfoRes
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
+com/example/demo/src/browse/model/GetGenreContentReq.java
+ com.example.demo.src.browse.model.GetGenreContentReq
+com/example/demo/src/browse/BrowseDao.java
+ com.example.demo.src.browse.BrowseDao
 com/example/demo/src/profile/ProfileController.java
  com.example.demo.src.profile.ProfileController
 com/example/demo/src/user/UserProvider.java
