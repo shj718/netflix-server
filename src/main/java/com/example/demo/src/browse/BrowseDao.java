@@ -21,7 +21,8 @@ public class BrowseDao {
 
 
     public GetMainRes getHomeMain(GetMainReq getMainReq) {
-        String getHomeMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl FROM Content ORDER BY RAND() LIMIT 1";
+        String getHomeMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl FROM Content " +
+                "WHERE logoImgUrl != 'N' ORDER BY RAND() LIMIT 1";
         return this.jdbcTemplate.queryForObject(getHomeMainQuery,
                 (rs, rowNum) -> new GetMainRes(
                         rs.getLong("id"),
@@ -36,7 +37,7 @@ public class BrowseDao {
 
     public GetMainRes getSeriesOrMovieMain(GetMainReq getMainReq) {
         String getSeriesOrMovieMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl FROM Content " +
-                "WHERE type = ? ORDER BY RAND() LIMIT 1";
+                "WHERE type = ? AND logoImgUrl != 'N' ORDER BY RAND() LIMIT 1";
         String getSeriesOrMovieMainParams = getMainReq.getBrowseType();
         return this.jdbcTemplate.queryForObject(getSeriesOrMovieMainQuery,
                 (rs, rowNum) -> new GetMainRes(

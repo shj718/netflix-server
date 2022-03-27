@@ -58,6 +58,8 @@ public enum BaseResponseStatus {
     PROFILE_NOT_EXISTS(false,3018,"존재하지 않는 프로필 고유 번호입니다."),
     FAILED_TO_PROFILE_LOGIN(false,3019,"PIN 번호가 틀렸습니다."),
     GENRE_NOT_EXISTS(false,3020,"존재하지 않는 장르입니다."),
+    DUPLICATED_PICK(false,3021,"이미 찜한 콘텐츠입니다."),
+    DELETE_FAIL_PICK(false,3022,"찜하지 않은 콘텐츠입니다."),
 
 
 
