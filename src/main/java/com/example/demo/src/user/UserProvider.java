@@ -52,7 +52,6 @@ public class UserProvider {
         }
     }
 
-    @Transactional
     public PostLoginRes logIn(PostLoginReq postLoginReq) throws BaseException{
         // 존재하지 않는 이메일인 경우 예외 처리
         try {

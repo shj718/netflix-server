@@ -40,6 +40,14 @@ public class MyListProvider {
         }
     }
 
+    public int checkContent(long contentIdx) throws BaseException {
+        try {
+            return myListDao.checkContent(contentIdx);
+        } catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     public List<GetMyListRes> getMyList(long profileIdx) throws BaseException {
         try {
             List<GetMyListRes> getMyListRes = myListDao.getMyList(profileIdx);

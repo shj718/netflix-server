@@ -60,6 +60,11 @@ public enum BaseResponseStatus {
     GENRE_NOT_EXISTS(false,3020,"존재하지 않는 장르입니다."),
     DUPLICATED_PICK(false,3021,"이미 찜한 콘텐츠입니다."),
     DELETE_FAIL_PICK(false,3022,"찜하지 않은 콘텐츠입니다."),
+    CONTENT_NOT_EXISTS(false,3023,"존재하지 않거나 공개되지 않은 콘텐츠입니다."),
+    DUPLICATED_LIKE(false,3024,"이미 좋아요한 콘텐츠입니다."),
+    DELETE_FAIL_LIKE(false,3025,"좋아요하지 않은 콘텐츠입니다."),
+    DUPLICATED_HATE(false,3026,"이미 싫어요한 콘텐츠입니다."),
+    DELETE_FAIL_HATE(false,3027,"싫어요하지 않은 콘텐츠입니다."),
 
 
 

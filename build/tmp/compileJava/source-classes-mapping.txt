@@ -1,5 +1,7 @@
 com/example/demo/src/browse/BrowseProvider.java
  com.example.demo.src.browse.BrowseProvider
+com/example/demo/src/likehate/LikeHateDao.java
+ com.example.demo.src.likehate.LikeHateDao
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
 com/example/demo/src/mylist/model/PatchPickReq.java
@@ -10,16 +12,14 @@ com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
 com/example/demo/src/mylist/model/GetMyListRes.java
  com.example.demo.src.mylist.model.GetMyListRes
+com/example/demo/src/likehate/LikeHateController.java
+ com.example.demo.src.likehate.LikeHateController
 com/example/demo/src/profile/ProfileService.java
  com.example.demo.src.profile.ProfileService
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
-com/example/demo/src/mylist/model/GetPickCheckReq.java
- com.example.demo.src.mylist.model.GetPickCheckReq
 com/example/demo/src/profile/model/GetProfileRes.java
  com.example.demo.src.profile.model.GetProfileRes
-com/example/demo/src/browse/model/GetSearchReq.java
- com.example.demo.src.browse.model.GetSearchReq
 com/example/demo/src/browse/model/GetMainRes.java
  com.example.demo.src.browse.model.GetMainRes
 com/example/demo/src/mylist/MyListProvider.java
@@ -46,6 +46,8 @@ com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
+com/example/demo/src/likehate/model/PostLikeReq.java
+ com.example.demo.src.likehate.model.PostLikeReq
 com/example/demo/src/user/model/GetUserInfoRes.java
  com.example.demo.src.user.model.GetUserInfoRes
 com/example/demo/src/browse/BrowseDao.java
@@ -56,6 +58,8 @@ com/example/demo/src/user/model/GetMembershipRes.java
  com.example.demo.src.user.model.GetMembershipRes
 com/example/demo/src/user/model/PostUserReq.java
  com.example.demo.src.user.model.PostUserReq
+com/example/demo/src/likehate/model/PatchLikeReq.java
+ com.example.demo.src.likehate.model.PatchLikeReq
 com/example/demo/src/user/model/PostMembershipReq.java
  com.example.demo.src.user.model.PostMembershipReq
 com/example/demo/src/browse/model/GetSoonRes.java
@@ -72,10 +76,10 @@ com/example/demo/src/profile/model/PatchLockPinReq.java
  com.example.demo.src.profile.model.PatchLockPinReq
 com/example/demo/utils/AES128.java
  com.example.demo.utils.AES128
-com/example/demo/src/browse/model/GetMainReq.java
- com.example.demo.src.browse.model.GetMainReq
 com/example/demo/src/user/model/Membership.java
  com.example.demo.src.user.model.Membership
+com/example/demo/src/likehate/LikeHateProvider.java
+ com.example.demo.src.likehate.LikeHateProvider
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
 com/example/demo/src/mylist/model/PostPickReq.java
@@ -86,8 +90,12 @@ com/example/demo/src/profile/ProfileProvider.java
  com.example.demo.src.profile.ProfileProvider
 com/example/demo/src/user/model/PostLoginReq.java
  com.example.demo.src.user.model.PostLoginReq
+com/example/demo/src/likehate/LikeHateService.java
+ com.example.demo.src.likehate.LikeHateService
 com/example/demo/src/profile/model/PostProfileReq.java
  com.example.demo.src.profile.model.PostProfileReq
+com/example/demo/src/likehate/model/PostHateReq.java
+ com.example.demo.src.likehate.model.PostHateReq
 com/example/demo/src/browse/BrowseController.java
  com.example.demo.src.browse.BrowseController
 com/example/demo/src/browse/model/GetGenreSeriesRes.java
@@ -102,13 +110,13 @@ com/example/demo/src/user/model/User.java
  com.example.demo.src.user.model.User
 com/example/demo/src/mylist/MyListController.java
  com.example.demo.src.mylist.MyListController
+com/example/demo/src/likehate/model/PatchHateReq.java
+ com.example.demo.src.likehate.model.PatchHateReq
 com/example/demo/DemoApplication.java
  com.example.demo.DemoApplication
  com.example.demo.DemoApplication$1
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
-com/example/demo/src/browse/model/GetGenreContentReq.java
- com.example.demo.src.browse.model.GetGenreContentReq
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
 com/example/demo/src/profile/model/Profile.java

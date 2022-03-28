@@ -67,16 +67,15 @@ public class MyListController {
      */
     @ResponseBody
     @GetMapping("/check")
-    public BaseResponse<Integer> checkContentPick(@RequestBody GetPickCheckReq getPickCheckReq) {
+    public BaseResponse<Integer> checkContentPick(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam long contentIdx) {
         try {
-            long userIdx = getPickCheckReq.getUserIdx();
             //jwt에서 idx 추출.
             long userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
             if(userIdx != userIdxByJwt){
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
-            Integer hasPicked = myListProvider.checkPick(getPickCheckReq.getProfileIdx(), getPickCheckReq.getContentIdx());
+            Integer hasPicked = myListProvider.checkPick(profileIdx, contentIdx);
             return new BaseResponse<>(hasPicked);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

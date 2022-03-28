@@ -35,7 +35,17 @@ public class MyListService {
 
     @Transactional
     public long createPick(PostPickReq postPickReq) throws BaseException {
-        int hasPicked;
+        int contentExists; // 존재하는 공개된 컨텐츠인지 체크
+        try {
+            contentExists = myListProvider.checkContent(postPickReq.getContentIdx());
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(contentExists == 0) {
+            throw new BaseException(CONTENT_NOT_EXISTS);
+        }
+
+        int hasPicked; // 이미 찜한 컨텐츠인지 체크
         try {
             hasPicked = myListProvider.checkPick(postPickReq.getProfileIdx(), postPickReq.getContentIdx());
         } catch(Exception exception){

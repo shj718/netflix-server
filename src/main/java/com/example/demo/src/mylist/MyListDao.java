@@ -23,9 +23,19 @@ public class MyListDao {
     public int checkPick(long profileIdx, long contentIdx) { // 해당 콘텐츠에 해당 프로필이 찜했는지 체크
         String checkPickQuery = "select exists(select profileId from Pick where profileId = ? and contentId = ? and status = 'A')";
         Object[] checkPickParams = new Object[]{profileIdx, contentIdx};
+
         return this.jdbcTemplate.queryForObject(checkPickQuery,
                 int.class,
                 checkPickParams);
+    }
+
+    public int checkContent(long contentIdx) {
+        String checkContentQuery = "select exists (select id from Content where id = ? and releaseDate <= current_timestamp)";
+        long checkContentParams = contentIdx;
+
+        return this.jdbcTemplate.queryForObject(checkContentQuery,
+                int.class,
+                checkContentParams);
     }
 
     public long createPick(PostPickReq postPickReq) {
