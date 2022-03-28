@@ -21,7 +21,7 @@ public class BrowseDao {
 
 
     public GetMainRes getHomeMain() {
-        String getHomeMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl FROM Content " +
+        String getHomeMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl, logoImgUrl FROM Content " +
                 "WHERE logoImgUrl != 'N' ORDER BY RAND() LIMIT 1";
         return this.jdbcTemplate.queryForObject(getHomeMainQuery,
                 (rs, rowNum) -> new GetMainRes(
@@ -31,12 +31,13 @@ public class BrowseDao {
                         rs.getString("summary"),
                         rs.getString("type"),
                         rs.getString("thumbnailUrl"),
-                        rs.getString("previewUrl")
-                ));
+                        rs.getString("previewUrl"),
+                        rs.getString("logoImgUrl"))
+                );
     }
 
     public GetMainRes getSeriesOrMovieMain(String browseType) {
-        String getSeriesOrMovieMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl FROM Content " +
+        String getSeriesOrMovieMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl, logoImgUrl FROM Content " +
                 "WHERE type = ? AND logoImgUrl != 'N' ORDER BY RAND() LIMIT 1";
         String getSeriesOrMovieMainParams = browseType;
         return this.jdbcTemplate.queryForObject(getSeriesOrMovieMainQuery,
@@ -47,7 +48,8 @@ public class BrowseDao {
                         rs.getString("summary"),
                         rs.getString("type"),
                         rs.getString("thumbnailUrl"),
-                        rs.getString("previewUrl")),
+                        rs.getString("previewUrl"),
+                        rs.getString("logoImgUrl")),
                 getSeriesOrMovieMainParams);
     }
 

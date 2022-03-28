@@ -15,4 +15,5 @@ public class GetMainRes {
     private String type;
     private String thumbnailUrl;
     private String previewUrl;
+    private String logoImageUrl;
 }
