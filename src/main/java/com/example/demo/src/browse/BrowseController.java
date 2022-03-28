@@ -43,9 +43,8 @@ public class BrowseController {
      */
     @ResponseBody
     @GetMapping("/main")
-    public BaseResponse<GetMainRes> getMain(@RequestBody GetMainReq getMainReq) {
+    public BaseResponse<GetMainRes> getMain(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam String browseType) {
         try {
-            long userIdx = getMainReq.getUserIdx();
             //jwt에서 idx 추출.
             long userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
@@ -54,13 +53,13 @@ public class BrowseController {
             }
 
             // Browse Type 형식적 밸리데이션
-            if(getMainReq.getBrowseType() == null) {
+            if(browseType == null) {
                 return new BaseResponse<>(EMPTY_BROWSE_TYPE);
             }
-            if(!isRegexBrowseType(getMainReq.getBrowseType()) || getMainReq.getBrowseType().length() != 1) {
+            if(!isRegexBrowseType(browseType) || browseType.length() != 1) {
                 return new BaseResponse<>(INVALID_BROWSE_TYPE);
             }
-            GetMainRes getMainRes = browseProvider.getMain(getMainReq);
+            GetMainRes getMainRes = browseProvider.getMain(browseType);
             return new BaseResponse<>(getMainRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -74,9 +73,8 @@ public class BrowseController {
      */
     @ResponseBody
     @GetMapping("/genre/movie")
-    public BaseResponse<List<GetGenreMovieRes>> getGenreMovies(@RequestBody GetGenreContentReq getGenreContentReq) {
+    public BaseResponse<List<GetGenreMovieRes>> getGenreMovies(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam String genre) {
         try {
-            long userIdx = getGenreContentReq.getUserIdx();
             //jwt에서 idx 추출.
             long userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
@@ -84,10 +82,10 @@ public class BrowseController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
 
-            if(getGenreContentReq.getGenre() == null) {
+            if(genre == null) {
                 return new BaseResponse<>(EMPTY_GENRE_REQUEST);
             }
-            List<GetGenreMovieRes> getGenreMoviesRes = browseProvider.getGenreMovies(getGenreContentReq);
+            List<GetGenreMovieRes> getGenreMoviesRes = browseProvider.getGenreMovies(genre);
             return new BaseResponse<>(getGenreMoviesRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -101,9 +99,8 @@ public class BrowseController {
      */
     @ResponseBody
     @GetMapping("/genre/series")
-    public BaseResponse<List<GetGenreSeriesRes>> getGenreSeries(@RequestBody GetGenreContentReq getGenreContentReq) {
+    public BaseResponse<List<GetGenreSeriesRes>> getGenreSeries(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam String genre) {
         try {
-            long userIdx = getGenreContentReq.getUserIdx();
             //jwt에서 idx 추출.
             long userIdxByJwt = jwtService.getUserIdx();
             //userIdx와 접근한 유저가 같은지 확인
@@ -111,10 +108,10 @@ public class BrowseController {
                 return new BaseResponse<>(INVALID_USER_JWT);
             }
 
-            if(getGenreContentReq.getGenre() == null) {
+            if(genre == null) {
                 return new BaseResponse<>(EMPTY_GENRE_REQUEST);
             }
-            List<GetGenreSeriesRes> getGenreSeriesRes = browseProvider.getGenreSeries(getGenreContentReq);
+            List<GetGenreSeriesRes> getGenreSeriesRes = browseProvider.getGenreSeries(genre);
             return new BaseResponse<>(getGenreSeriesRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -185,6 +182,31 @@ public class BrowseController {
 
             List<GetSoonRes> getSoonRes = browseProvider.getSoon();
             return new BaseResponse<>(getSoonRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    /**
+     * 검색한 콘텐츠 및 관련 콘텐츠 조회 API
+     * (검색 키워드를 포함하는 제목의 컨텐츠를 반환, 그 컨텐츠 개수가 부족할 시 모자른 개수만큼 관련된 컨텐츠로 채움.)
+     * [GET] /browse/search
+     * @return BaseResponse<List<GetSearchRes>>
+     */
+    @ResponseBody
+    @GetMapping("/search")
+    public BaseResponse<List<GetSearchRes>> getSearch(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam String search) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            List<GetSearchRes> getSearchRes = browseProvider.getSearch(search);
+            return new BaseResponse<>(getSearchRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }

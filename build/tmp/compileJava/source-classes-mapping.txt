@@ -18,6 +18,8 @@ com/example/demo/src/mylist/model/GetPickCheckReq.java
  com.example.demo.src.mylist.model.GetPickCheckReq
 com/example/demo/src/profile/model/GetProfileRes.java
  com.example.demo.src.profile.model.GetProfileRes
+com/example/demo/src/browse/model/GetSearchReq.java
+ com.example.demo.src.browse.model.GetSearchReq
 com/example/demo/src/browse/model/GetMainRes.java
  com.example.demo.src.browse.model.GetMainRes
 com/example/demo/src/mylist/MyListProvider.java
@@ -58,6 +60,8 @@ com/example/demo/src/user/model/PostMembershipReq.java
  com.example.demo.src.user.model.PostMembershipReq
 com/example/demo/src/browse/model/GetSoonRes.java
  com.example.demo.src.browse.model.GetSoonRes
+com/example/demo/src/browse/model/GetSearchRes.java
+ com.example.demo.src.browse.model.GetSearchRes
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
 com/example/demo/src/browse/model/TopTen.java

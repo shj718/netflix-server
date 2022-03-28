@@ -20,7 +20,7 @@ public class BrowseDao {
 
 
 
-    public GetMainRes getHomeMain(GetMainReq getMainReq) {
+    public GetMainRes getHomeMain() {
         String getHomeMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl FROM Content " +
                 "WHERE logoImgUrl != 'N' ORDER BY RAND() LIMIT 1";
         return this.jdbcTemplate.queryForObject(getHomeMainQuery,
@@ -35,10 +35,10 @@ public class BrowseDao {
                 ));
     }
 
-    public GetMainRes getSeriesOrMovieMain(GetMainReq getMainReq) {
+    public GetMainRes getSeriesOrMovieMain(String browseType) {
         String getSeriesOrMovieMainQuery = "SELECT id, title, ageRate, summary, type, thumbnailUrl, previewUrl FROM Content " +
                 "WHERE type = ? AND logoImgUrl != 'N' ORDER BY RAND() LIMIT 1";
-        String getSeriesOrMovieMainParams = getMainReq.getBrowseType();
+        String getSeriesOrMovieMainParams = browseType;
         return this.jdbcTemplate.queryForObject(getSeriesOrMovieMainQuery,
                 (rs, rowNum) -> new GetMainRes(
                         rs.getLong("id"),
@@ -51,19 +51,20 @@ public class BrowseDao {
                 getSeriesOrMovieMainParams);
     }
 
-    public int checkGenreName(GetGenreContentReq getGenreContentReq) {
+    public int checkGenreName(String genre) {
         String checkGenreNameQuery = "select exists(select genreId from GenreContent where genreId in (select id from Genre where name = ?))";
-        String checkGenreNameParams = getGenreContentReq.getGenre();
+        String checkGenreNameParams = genre;
+
         return this.jdbcTemplate.queryForObject(checkGenreNameQuery,
                 int.class,
                 checkGenreNameParams);
     }
 
-    public List<GetGenreMovieRes> getGenreMovies(GetGenreContentReq getGenreContentReq) {
+    public List<GetGenreMovieRes> getGenreMovies(String genre) {
         String getGenreMoviesQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage " +
                 "from Content where id in (select contentId from GenreContent where genreId in (select id from Genre where name = ?)) " +
                 "and type = 'M'";
-        String getGenreMoviesParams = getGenreContentReq.getGenre();
+        String getGenreMoviesParams = genre;
         return this.jdbcTemplate.query(getGenreMoviesQuery,
                 (rs, rowNum) -> new GetGenreMovieRes(
                         rs.getLong("id"),
@@ -77,11 +78,11 @@ public class BrowseDao {
                 getGenreMoviesParams);
     }
 
-    public List<GetGenreSeriesRes> getGenreSeries(GetGenreContentReq getGenreContentReq) {
+    public List<GetGenreSeriesRes> getGenreSeries(String genre) {
         String getGenreSeriesQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, percentage, newEpisode " +
                 "from Content where id in (select contentId from GenreContent where genreId in (select id from Genre where name = ?)) " +
                 "and type = 'S'";
-        String getGenreSeriesParams = getGenreContentReq.getGenre();
+        String getGenreSeriesParams = genre;
         return this.jdbcTemplate.query(getGenreSeriesQuery,
                 (rs, rowNum) -> new GetGenreSeriesRes(
                         rs.getLong("id"),
@@ -99,6 +100,7 @@ public class BrowseDao {
         String getTopTenIdxQuery = "select contentId, likeCount from (select contentId, count(*) as likeCount from Likes " +
                 "where status = 'A' group by contentId) as contentLikes " +
                 "order by likeCount desc limit 10";
+
         return this.jdbcTemplate.query(getTopTenIdxQuery,
                 (rs, rowNum) -> new TopTen(
                         rs.getLong("contentId"),
@@ -159,5 +161,57 @@ public class BrowseDao {
                         rs.getString("thumbnailUrl"),
                         rs.getString("previewUrl"))
                 );
+    }
+
+    public List<GetSearchRes> getRelated(int numOfRelated, String search) { // 매개변수 개수만큼 가져오기, 검색 결과와 일치하는건 제외
+        String getRelatedQuery = "select id, title, " +
+                "       case " +
+                "           when releaseDate <= current_timestamp " +
+                "               then '공개된 컨텐츠' " +
+                "           when timestampdiff(day, current_timestamp, releaseDate) < 7 " +
+                "               then date_format(releaseDate, '%a') " +
+                "           else date_format(releaseDate, '%c월 %e일') end as releaseDate, " +
+                "       ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage, newEpisode " +
+                "from Content where id not in (select id from Content where title like concat('%',?,'%')) ORDER BY RAND() LIMIT ?";
+        Object[] getRelatedParams = new Object[]{search, numOfRelated};
+        return this.jdbcTemplate.query(getRelatedQuery,
+                (rs, rowNum) -> new GetSearchRes(
+                        rs.getLong("id"),
+                        rs.getString("title"),
+                        rs.getString("releaseDate"),
+                        rs.getLong("ageRate"),
+                        rs.getString("type"),
+                        rs.getString("thumbnailUrl"),
+                        rs.getString("previewUrl"),
+                        rs.getString("runningTime"),
+                        rs.getString("percentage"),
+                        rs.getString("newEpisode")),
+                getRelatedParams);
+    }
+
+    public List<GetSearchRes> getSearch(String search) { // 검색한 것 가져오기
+        String getSearchQuery = "select id, title, " +
+                "       case " +
+                "           when releaseDate <= current_timestamp " +
+                "               then '공개된 컨텐츠' " +
+                "           when timestampdiff(day, current_timestamp, releaseDate) < 7 " +
+                "               then date_format(releaseDate, '%a') " +
+                "           else date_format(releaseDate, '%c월 %e일') end as releaseDate, " +
+                "       ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage, newEpisode " +
+                "       from Content where title like concat('%',?,'%')";
+        String getSearchParams = search;
+        return this.jdbcTemplate.query(getSearchQuery,
+                (rs, rowNum) -> new GetSearchRes(
+                        rs.getLong("id"),
+                        rs.getString("title"),
+                        rs.getString("releaseDate"),
+                        rs.getLong("ageRate"),
+                        rs.getString("type"),
+                        rs.getString("thumbnailUrl"),
+                        rs.getString("previewUrl"),
+                        rs.getString("runningTime"),
+                        rs.getString("percentage"),
+                        rs.getString("newEpisode")),
+                getSearchParams);
     }
 }
