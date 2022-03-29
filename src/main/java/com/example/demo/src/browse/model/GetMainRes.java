@@ -13,7 +13,7 @@ public class GetMainRes {
     private long ageRate;
     private String summary;
     private String type;
-    private String thumbnailUrl;
     private String previewUrl;
     private String logoImageUrl;
+    private String mainImageUrl;
 }
