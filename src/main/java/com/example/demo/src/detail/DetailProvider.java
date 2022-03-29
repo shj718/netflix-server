@@ -40,4 +40,91 @@ public class DetailProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public int checkContent(long contentIdx) throws BaseException {
+        try {
+            return detailDao.checkContent(contentIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkContentType(long contentIdx) throws BaseException {
+        try {
+            return detailDao.checkContentType(contentIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetDirectorActorRes getDirectorsActors(long contentIdx) throws BaseException {
+        // 존재하는 컨텐츠인지 체크
+        int contentExists;
+        try {
+            contentExists = checkContent(contentIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(contentExists == 0) {
+            throw new BaseException(DETAIL_CONTENT_NOT_EXIST);
+        }
+
+        try {
+            GetDirectorActorRes getDirectorActorRes = detailDao.getDirectorsActors(contentIdx);
+            return getDirectorActorRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public GetGenreFeatureRes getGenresFeatures(long contentIdx) throws BaseException {
+        // 존재하는 컨텐츠인지 체크
+        int contentExists;
+        try {
+            contentExists = checkContent(contentIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(contentExists == 0) {
+            throw new BaseException(DETAIL_CONTENT_NOT_EXIST);
+        }
+
+        try {
+            GetGenreFeatureRes getGenreFeatureRes = detailDao.getGenresFeatures(contentIdx);
+            return getGenreFeatureRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int getSeasonsCount(long contentIdx) throws BaseException {
+        // 존재하는 컨텐츠인지 체크
+        int contentExists;
+        try {
+            contentExists = checkContent(contentIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(contentExists == 0) {
+            throw new BaseException(DETAIL_CONTENT_NOT_EXIST);
+        }
+
+        // 해당 컨텐츠가 시리즈물인지 체크
+        int isSeries;
+        try{
+            isSeries = checkContentType(contentIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(isSeries == 0) {
+            throw new BaseException(DETAIL_INVALID_CONTENT_TYPE);
+        }
+
+        try {
+            int seasonsCount = detailDao.getSeasonsCount(contentIdx);
+            return seasonsCount;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

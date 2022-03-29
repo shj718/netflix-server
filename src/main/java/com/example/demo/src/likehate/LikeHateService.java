@@ -88,36 +88,34 @@ public class LikeHateService {
 
     @Transactional
     public long createHate(PostHateReq postHateReq) throws BaseException {
+
+        int contentExists; // 컨텐츠 존재, 공개 여부 체크
         try {
-            int contentExists; // 컨텐츠 존재, 공개 여부 체크
-            try {
-                contentExists = likeHateProvider.checkContent(postHateReq.getContentIdx());
-            } catch(Exception exception){
-                throw new BaseException(DATABASE_ERROR);
-            }
-            if(contentExists == 0) {
-                throw new BaseException(CONTENT_NOT_EXISTS);
-            }
-
-            int hasHated; // 이미 싫어요한 컨텐츠인지 체크
-            try {
-                hasHated = likeHateProvider.checkHate(postHateReq.getProfileIdx(), postHateReq.getContentIdx());
-            } catch(Exception exception){
-                throw new BaseException(DATABASE_ERROR);
-            }
-            if(hasHated == 1) {
-                throw new BaseException(DUPLICATED_HATE);
-            }
-
-            try {
-                long hateIdx = likeHateDao.createHate(postHateReq);
-                return hateIdx;
-            } catch(Exception exception){
-                throw new BaseException(DATABASE_ERROR);
-            }
-        } catch(Exception exception){
+            contentExists = likeHateProvider.checkContent(postHateReq.getContentIdx());
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+        if (contentExists == 0) {
+            throw new BaseException(CONTENT_NOT_EXISTS);
+        }
+
+        int hasHated; // 이미 싫어요한 컨텐츠인지 체크
+        try {
+            hasHated = likeHateProvider.checkHate(postHateReq.getProfileIdx(), postHateReq.getContentIdx());
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if (hasHated == 1) {
+            throw new BaseException(DUPLICATED_HATE);
+        }
+
+        try {
+            long hateIdx = likeHateDao.createHate(postHateReq);
+            return hateIdx;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 
     @Transactional

@@ -8,6 +8,8 @@ com/example/demo/src/mylist/model/PatchPickReq.java
  com.example.demo.src.mylist.model.PatchPickReq
 com/example/demo/src/user/model/PostPaymentReq.java
  com.example.demo.src.user.model.PostPaymentReq
+com/example/demo/src/detail/model/GetGenreFeatureRes.java
+ com.example.demo.src.detail.model.GetGenreFeatureRes
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
 com/example/demo/src/mylist/model/GetMyListRes.java
@@ -44,6 +46,8 @@ com/example/demo/src/mylist/MyListDao.java
  com.example.demo.src.mylist.MyListDao
 com/example/demo/src/user/UserService.java
  com.example.demo.src.user.UserService
+com/example/demo/src/detail/model/GetDirectorActorRes.java
+ com.example.demo.src.detail.model.GetDirectorActorRes
 com/example/demo/config/BaseException.java
  com.example.demo.config.BaseException
 com/example/demo/src/likehate/model/PostLikeReq.java

@@ -58,4 +58,73 @@ public class DetailController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 감독(크리에이터) 리스트 & 출연자 리스트 조회 API
+     * [GET] /detail/directors-actors
+     * @return BaseResponse<GetDirectorActorRes>
+     */
+    @ResponseBody
+    @GetMapping("/directors-actors")
+    public BaseResponse<GetDirectorActorRes> getDirectorsActors(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam long contentIdx) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            GetDirectorActorRes getDirectorActorRes = detailProvider.getDirectorsActors(contentIdx);
+            return new BaseResponse<>(getDirectorActorRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 장르 리스트 & 특징 리스트 조회 API
+     * [GET] /detail/genres-features
+     * @return BaseResponse<GetGenreFeatureRes>
+     */
+    @ResponseBody
+    @GetMapping("/genres-features")
+    public BaseResponse<GetGenreFeatureRes> getGenresFeatures(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam long contentIdx) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            GetGenreFeatureRes getGenreFeatureRes = detailProvider.getGenresFeatures(contentIdx);
+            return new BaseResponse<>(getGenreFeatureRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 시리즈 콘텐츠의 시즌 개수 조회 API
+     * [GET] /detail/seasons-count
+     * @return BaseResponse<Integer>
+     */
+    @ResponseBody
+    @GetMapping("/seasons-count")
+    public BaseResponse<Integer> getSeasonsCount(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam long contentIdx) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            Integer seasonsCount = detailProvider.getSeasonsCount(contentIdx);
+            return new BaseResponse<>(seasonsCount);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

@@ -96,7 +96,7 @@ public class BrowseProvider {
         }
         try {
             List<GetGenreSeriesRes> getGenreSeriesRes = new ArrayList<>();
-            
+
             // 스크롤 구현을 위해 여러번 호출
             for(int i = 0; i < 3; i++) {
                 getGenreSeriesRes.addAll(browseDao.getGenreSeries(genre));
