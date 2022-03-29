@@ -72,7 +72,12 @@ public class BrowseProvider {
             throw new BaseException(GENRE_NOT_EXISTS);
         }
         try {
-            List<GetGenreMovieRes> getGenreMoviesRes = browseDao.getGenreMovies(genre);
+            List<GetGenreMovieRes> getGenreMoviesRes = new ArrayList<>();
+
+            // 스크롤 구현을 위해 여러번 호출
+            for(int i = 0; i < 3; i++) {
+                getGenreMoviesRes.addAll(browseDao.getGenreMovies(genre));
+            }
             return getGenreMoviesRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
@@ -90,7 +95,12 @@ public class BrowseProvider {
             throw new BaseException(GENRE_NOT_EXISTS);
         }
         try {
-            List<GetGenreSeriesRes> getGenreSeriesRes = browseDao.getGenreSeries(genre);
+            List<GetGenreSeriesRes> getGenreSeriesRes = new ArrayList<>();
+            
+            // 스크롤 구현을 위해 여러번 호출
+            for(int i = 0; i < 3; i++) {
+                getGenreSeriesRes.addAll(browseDao.getGenreSeries(genre));
+            }
             return getGenreSeriesRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);
@@ -128,7 +138,12 @@ public class BrowseProvider {
 
     public List<GetSoonRes> getSoon() throws BaseException {
         try {
-            List<GetSoonRes> getSoonRes = browseDao.getSoon();
+            List<GetSoonRes> getSoonRes = new ArrayList<>();
+
+            // 스크롤 구현을 위해 여러번 호출
+            for(int i = 0; i < 3; i++) {
+                getSoonRes.addAll(browseDao.getSoon());
+            }
             return getSoonRes;
         } catch (Exception exception){
             throw new BaseException(DATABASE_ERROR);

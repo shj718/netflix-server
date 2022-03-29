@@ -131,7 +131,7 @@ public class BrowseDao {
 
     public List<GetLatestRes> getLatest() {
         String getLatestQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage, newEpisode " +
-                "from Content order by releaseDate desc limit 7";
+                "from Content order by releaseDate desc limit 12";
         return this.jdbcTemplate.query(getLatestQuery,
                 (rs, rowNum) -> new GetLatestRes(
                         rs.getLong("id"),
