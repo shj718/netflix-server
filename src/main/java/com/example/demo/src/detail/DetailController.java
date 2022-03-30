@@ -127,4 +127,96 @@ public class DetailController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 예고편 및 다른 영상 조회 API
+     * [GET] /detail/trailers
+     * @return BaseResponse<List<GetTrailerRes>>
+     */
+    @ResponseBody
+    @GetMapping("/trailers")
+    public BaseResponse<List<GetTrailerRes>> getTrailers(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam long contentIdx) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            List<GetTrailerRes> getTrailerRes = detailProvider.getTrailers(contentIdx);
+            return new BaseResponse<>(getTrailerRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 시즌별 회차 정보 조회 API
+     * [GET] /detail/episodes
+     * @return BaseResponse<List<GetEpisodeRes>>
+     */
+    @ResponseBody
+    @GetMapping("/episodes")
+    public BaseResponse<List<GetEpisodeRes>> getEpisodes(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam long contentIdx, @RequestParam long seasonNumber) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            List<GetEpisodeRes> getEpisodeRes = detailProvider.getEpisodes(contentIdx, seasonNumber);
+            return new BaseResponse<>(getEpisodeRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 비슷한 시리즈 조회 API (비슷한 콘텐츠 선정 기준: 콘텐츠 특징 리스트 Ex. 힐링, 긴장감 넘치는, 유쾌 발랄, 감정을 파고드는 등)
+     * [GET] /detail/similar/series
+     * @return BaseResponse<List<GetSimilarSeriesRes>>
+     */
+    @ResponseBody
+    @GetMapping("/similar/series")
+    public BaseResponse<List<GetSimilarSeriesRes>> getSimilarSeries(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam long contentIdx) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            List<GetSimilarSeriesRes> getSimilarSeriesRes = detailProvider.getSimilarSeries(contentIdx);
+            return new BaseResponse<>(getSimilarSeriesRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 비슷한 영화 조회 API (비슷한 콘텐츠 선정 기준: 콘텐츠 특징 리스트 Ex. 힐링, 긴장감 넘치는, 유쾌 발랄, 감정을 파고드는 등)
+     * [GET] /detail/similar/movies
+     * @return BaseResponse<List<GetSimilarSeriesRes>>
+     */
+    @ResponseBody
+    @GetMapping("/similar/movies")
+    public BaseResponse<List<GetSimilarMovieRes>> getSimilarMovies(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam long contentIdx) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            List<GetSimilarMovieRes> getSimilarMovieRes = detailProvider.getSimilarMovies(contentIdx);
+            return new BaseResponse<>(getSimilarMovieRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

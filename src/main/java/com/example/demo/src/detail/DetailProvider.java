@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -66,7 +67,7 @@ public class DetailProvider {
             throw new BaseException(DATABASE_ERROR);
         }
         if(contentExists == 0) {
-            throw new BaseException(DETAIL_CONTENT_NOT_EXIST);
+            throw new BaseException(DETAIL_CONTENT_NOT_EXISTS);
         }
 
         try {
@@ -86,7 +87,7 @@ public class DetailProvider {
             throw new BaseException(DATABASE_ERROR);
         }
         if(contentExists == 0) {
-            throw new BaseException(DETAIL_CONTENT_NOT_EXIST);
+            throw new BaseException(DETAIL_CONTENT_NOT_EXISTS);
         }
 
         try {
@@ -106,7 +107,7 @@ public class DetailProvider {
             throw new BaseException(DATABASE_ERROR);
         }
         if(contentExists == 0) {
-            throw new BaseException(DETAIL_CONTENT_NOT_EXIST);
+            throw new BaseException(DETAIL_CONTENT_NOT_EXISTS);
         }
 
         // 해당 컨텐츠가 시리즈물인지 체크
@@ -123,6 +124,184 @@ public class DetailProvider {
         try {
             int seasonsCount = detailDao.getSeasonsCount(contentIdx);
             return seasonsCount;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkTrailer(long contentIdx) throws BaseException {
+        try {
+            return detailDao.checkTrailer(contentIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetTrailerRes> getTrailers(long contentIdx) throws BaseException {
+        // 존재하는 컨텐츠인지 체크
+        int contentExists;
+        try {
+            contentExists = checkContent(contentIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if (contentExists == 0) {
+            throw new BaseException(DETAIL_CONTENT_NOT_EXISTS);
+        }
+
+        // 예고편 및 다른 영상이 존재하는지 체크
+        int trailerExists;
+        try {
+            trailerExists = checkTrailer(contentIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if (trailerExists == 0) {
+            throw new BaseException(DETAIL_TRAILER_NOT_EXISTS);
+        }
+
+        try {
+            List<GetTrailerRes> getTrailerRes = detailDao.getTrailers(contentIdx);
+            return getTrailerRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
+    public int checkSeason(long contentIdx, long seasonNumber) throws BaseException {
+        try {
+            return detailDao.checkSeason(contentIdx, seasonNumber);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetEpisodeRes> getEpisodes(long contentIdx, long seasonNumber) throws BaseException {
+        // 존재하는 컨텐츠인지 체크
+        int contentExists;
+        try {
+            contentExists = checkContent(contentIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if (contentExists == 0) {
+            throw new BaseException(DETAIL_CONTENT_NOT_EXISTS);
+        }
+
+        // 컨텐츠가 시리즈물인지 체크
+        int isSeries;
+        try{
+            isSeries = checkContentType(contentIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(isSeries == 0) {
+            throw new BaseException(DETAIL_INVALID_CONTENT_TYPE);
+        }
+
+        // 존재하는 시즌인지 체크
+        int seasonExists;
+        try {
+            seasonExists = checkSeason(contentIdx, seasonNumber);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(seasonExists == 0) {
+            throw new BaseException(DETAIL_SEASON_NOT_EXISTS);
+        }
+
+        try {
+            List<GetEpisodeRes> getEpisodeRes = detailDao.getEpisodes(contentIdx, seasonNumber);
+            return getEpisodeRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetSimilarSeriesRes> getSimilarSeries(long contentIdx) throws BaseException {
+        // 존재하는 컨텐츠인지 체크
+        int contentExists;
+        try {
+            contentExists = checkContent(contentIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if (contentExists == 0) {
+            throw new BaseException(DETAIL_CONTENT_NOT_EXISTS);
+        }
+
+        // 컨텐츠가 시리즈물인지 체크
+        int isSeries;
+        try{
+            isSeries = checkContentType(contentIdx);
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(isSeries == 0) {
+            throw new BaseException(DETAIL_INVALID_CONTENT_TYPE);
+        }
+
+        // 비슷한 컨텐츠 가져오기
+        try {
+            // TODO: SimilarSeries에 시즌 개수를 뺀 나머지 정보 받아오기
+            List<SimilarSeries> similarSeriesList = detailDao.getSimilarSeries(contentIdx);
+            // 각각의 시즌 개수 가져오기
+            List<GetSimilarSeriesRes> getSimilarSeriesRes = new ArrayList<GetSimilarSeriesRes>();
+
+            long similarSeriesIdx; // 비슷한 시리즈들의 contentIdx
+            int seasonsCountPerSeries; // 각 시리즈의 시즌 개수
+            for(int i = 0; i < similarSeriesList.size(); i++) {
+                similarSeriesIdx = similarSeriesList.get(i).getContentIdx();
+
+                seasonsCountPerSeries = detailDao.getSeasonsCount(similarSeriesIdx); // 시즌 개수 받아오기
+
+                getSimilarSeriesRes.add(new GetSimilarSeriesRes(seasonsCountPerSeries, similarSeriesList.get(i).getContentIdx(),
+                        similarSeriesList.get(i).getTitle(), similarSeriesList.get(i).getAgeRate(),similarSeriesList.get(i).getSummary(),
+                        similarSeriesList.get(i).getType(), similarSeriesList.get(i).getThumbnailUrl(),
+                        similarSeriesList.get(i).getPercentage(), similarSeriesList.get(i).getProductionYear()));
+
+            }
+            return getSimilarSeriesRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkContentMovie(long contentIdx) throws BaseException {
+        try {
+            return detailDao.checkContentMovie(contentIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetSimilarMovieRes> getSimilarMovies(long contentIdx) throws BaseException {
+        // 존재하는 컨텐츠인지 체크
+        int contentExists;
+        try {
+            contentExists = checkContent(contentIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if (contentExists == 0) {
+            throw new BaseException(DETAIL_CONTENT_NOT_EXISTS);
+        }
+
+        // 영화인지 체크
+        int isMovie;
+        try {
+            isMovie = checkContentMovie(contentIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(isMovie == 0) {
+            throw new BaseException(DETAIL_TYPE_NOT_MOVIE);
+        }
+
+        try {
+            List<GetSimilarMovieRes> getSimilarMovieRes = detailDao.getSimilarMovies(contentIdx);
+            return getSimilarMovieRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

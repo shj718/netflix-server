@@ -4,6 +4,8 @@ com/example/demo/src/likehate/LikeHateDao.java
  com.example.demo.src.likehate.LikeHateDao
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
+com/example/demo/src/detail/model/SimilarSeries.java
+ com.example.demo.src.detail.model.SimilarSeries
 com/example/demo/src/mylist/model/PatchPickReq.java
  com.example.demo.src.mylist.model.PatchPickReq
 com/example/demo/src/user/model/PostPaymentReq.java
@@ -20,8 +22,12 @@ com/example/demo/src/profile/ProfileService.java
  com.example.demo.src.profile.ProfileService
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
+com/example/demo/src/detail/model/GetTrailerRes.java
+ com.example.demo.src.detail.model.GetTrailerRes
 com/example/demo/src/profile/model/GetProfileRes.java
  com.example.demo.src.profile.model.GetProfileRes
+com/example/demo/src/detail/model/GetEpisodeRes.java
+ com.example.demo.src.detail.model.GetEpisodeRes
 com/example/demo/src/browse/model/GetMainRes.java
  com.example.demo.src.browse.model.GetMainRes
 com/example/demo/src/mylist/MyListProvider.java
@@ -42,6 +48,8 @@ com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/src/browse/BrowseService.java
  com.example.demo.src.browse.BrowseService
+com/example/demo/src/detail/model/GetSimilarMovieRes.java
+ com.example.demo.src.detail.model.GetSimilarMovieRes
 com/example/demo/src/mylist/MyListDao.java
  com.example.demo.src.mylist.MyListDao
 com/example/demo/src/user/UserService.java
@@ -84,6 +92,8 @@ com/example/demo/utils/AES128.java
  com.example.demo.utils.AES128
 com/example/demo/src/user/model/Membership.java
  com.example.demo.src.user.model.Membership
+com/example/demo/src/detail/model/GetSimilarSeriesRes.java
+ com.example.demo.src.detail.model.GetSimilarSeriesRes
 com/example/demo/src/likehate/LikeHateProvider.java
  com.example.demo.src.likehate.LikeHateProvider
 com/example/demo/src/WebSecurityConfig.java

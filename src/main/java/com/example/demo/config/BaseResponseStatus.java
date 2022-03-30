@@ -65,8 +65,11 @@ public enum BaseResponseStatus {
     DELETE_FAIL_LIKE(false,3025,"좋아요하지 않은 콘텐츠입니다."),
     DUPLICATED_HATE(false,3026,"이미 싫어요한 콘텐츠입니다."),
     DELETE_FAIL_HATE(false,3027,"싫어요하지 않은 콘텐츠입니다."),
-    DETAIL_CONTENT_NOT_EXIST(false,3028,"존재하지 않는 콘텐츠입니다."),
+    DETAIL_CONTENT_NOT_EXISTS(false,3028,"존재하지 않는 콘텐츠입니다."),
     DETAIL_INVALID_CONTENT_TYPE(false,3029,"해당 콘텐츠는 시리즈물이 아닙니다."),
+    DETAIL_TRAILER_NOT_EXISTS(false,3030,"예고편 및 다른 영상이 존재하지 않는 콘텐츠입니다."),
+    DETAIL_SEASON_NOT_EXISTS(false,3031,"존재하지 않는 시즌입니다."),
+    DETAIL_TYPE_NOT_MOVIE(false,3032,"해당 콘텐츠는 영화가 아닙니다."),
 
 
 
