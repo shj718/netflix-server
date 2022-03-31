@@ -54,8 +54,8 @@ public class OauthService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=aa236eb12e32e4166338c596e8c5b1a9"); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=http://localhost:9000/oauth/kakao"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&client_id=266c45ff0edc20e6ba844457f9e0dc3e"); // TODO REST_API_KEY 입력
+            sb.append("&redirect_uri=https://rtflix.site/oauth/kakao"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
