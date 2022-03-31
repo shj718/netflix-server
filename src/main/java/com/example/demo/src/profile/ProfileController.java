@@ -166,4 +166,32 @@ public class ProfileController {
         }
     }
 
+    /** 프로필 이름 수정 API
+     * [PATCH] /profile/info/name
+     * @return BaseResponse<Long>
+     */
+    @ResponseBody
+    @PatchMapping("/info/name")
+    public BaseResponse<Long> modifyProfileName(@RequestBody PatchProfileNameReq patchProfileNameReq) {
+        try {
+            long userIdx = patchProfileNameReq.getUserIdx();
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            if(patchProfileNameReq.getProfileName() == null) {
+                return new BaseResponse<>(EMPTY_PROFILE_NAME);
+            }
+
+            profileService.modifyProfileName(patchProfileNameReq);
+            Long profileIdx = patchProfileNameReq.getProfileIdx();
+            return new BaseResponse<>(profileIdx);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }

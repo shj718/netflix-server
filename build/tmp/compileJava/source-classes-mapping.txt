@@ -26,6 +26,8 @@ com/example/demo/src/detail/model/GetTrailerRes.java
  com.example.demo.src.detail.model.GetTrailerRes
 com/example/demo/src/profile/model/GetProfileRes.java
  com.example.demo.src.profile.model.GetProfileRes
+com/example/demo/src/profile/model/PatchProfileNameReq.java
+ com.example.demo.src.profile.model.PatchProfileNameReq
 com/example/demo/src/detail/model/GetEpisodeRes.java
  com.example.demo.src.detail.model.GetEpisodeRes
 com/example/demo/src/browse/model/GetMainRes.java

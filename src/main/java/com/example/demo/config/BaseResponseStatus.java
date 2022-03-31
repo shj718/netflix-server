@@ -41,6 +41,7 @@ public enum BaseResponseStatus {
     EMPTY_BROWSE_TYPE(false,2027,"화면 타입을 입력해주세요."),
     INVALID_BROWSE_TYPE(false,2028,"홈 화면은 H, 시리즈 화면은 S, 영화 화면은 M을 입력해주세요"),
     EMPTY_GENRE_REQUEST(false,2029,"장르 이름을 입력해주세요."),
+    EMPTY_PROFILE_NAME(false,2030,"수정할 프로필 이름을 입력해주세요."),
 
 
     /**

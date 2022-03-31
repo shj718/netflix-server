@@ -66,8 +66,40 @@ public class ProfileService {
 
     @Transactional
     public void updateProfileLock(PatchLockPinReq patchLockPinReq) throws BaseException {
+        // 존재하는 프로필인지 확인
+        int profileExists;
+        try {
+            profileExists = profileProvider.checkProfileExists(patchLockPinReq.getProfileIdx());
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(profileExists == 0) {
+            throw new BaseException(PROFILE_NOT_EXISTS);
+        }
+
         try {
             int result = profileDao.updateProfileLock(patchLockPinReq);
+            if(result == 0) {
+                throw new BaseException(DATABASE_ERROR);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void modifyProfileName(PatchProfileNameReq patchProfileNameReq) throws BaseException {
+        int profileExists;
+        try {
+            profileExists = profileProvider.checkProfileExists(patchProfileNameReq.getProfileIdx());
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(profileExists == 0) {
+            throw new BaseException(PROFILE_NOT_EXISTS);
+        }
+
+        try {
+            int result = profileDao.modifyProfileName(patchProfileNameReq);
             if(result == 0) {
                 throw new BaseException(DATABASE_ERROR);
             }

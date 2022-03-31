@@ -77,6 +77,7 @@ public class ProfileDao {
         String updateProfileLockQuery = "update Profile set lockPin = ? where id = ? and userId = ? and status = 'A'";
         Object[] updateProfileLockParams = new Object[]{patchLockPinReq.getProfileLockPin(), patchLockPinReq.getProfileIdx(),
         patchLockPinReq.getUserIdx()};
+
         return this.jdbcTemplate.update(updateProfileLockQuery, updateProfileLockParams);
     }
 
@@ -94,5 +95,22 @@ public class ProfileDao {
                         rs.getLong("id"),
                         rs.getString("lockPin")),
                 getProfilePwdParams);
+    }
+
+    public int checkProfileExists(long profileIdx) {
+        String checkProfileExistsQuery = "select exists(select id from Profile where id = ? and status = 'A')";
+        long checkProfileExistsParams = profileIdx;
+
+        return this.jdbcTemplate.queryForObject(checkProfileExistsQuery,
+                int.class,
+                checkProfileExistsParams);
+    }
+
+    public int modifyProfileName(PatchProfileNameReq patchProfileNameReq) {
+        String modifyProfileNameQuery = "update Profile set name = ? where id = ? and userId = ? and status = 'A'";
+        Object[] modifyProfileNameParams = new Object[]{patchProfileNameReq.getProfileName(), patchProfileNameReq.getProfileIdx(),
+                patchProfileNameReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(modifyProfileNameQuery, modifyProfileNameParams);
     }
 }

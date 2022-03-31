@@ -21,8 +21,9 @@ public class BrowseDao {
 
 
     public GetMainRes getHomeMain() {
-        String getHomeMainQuery = "SELECT id, title, ageRate, summary, type, previewUrl, logoImgUrl, mainImgUrl FROM Content " +
-                "WHERE logoImgUrl != 'N' ORDER BY RAND() LIMIT 1";
+        String getHomeMainQuery = "SELECT id, title, ageRate, summary, type, previewUrl, logoImgUrl, mainImgUrl " +
+                "FROM Content WHERE logoImgUrl != 'N' AND releaseDate <= current_timestamp " +
+                "ORDER BY RAND() LIMIT 1";
         return this.jdbcTemplate.queryForObject(getHomeMainQuery,
                 (rs, rowNum) -> new GetMainRes(
                         rs.getLong("id"),
@@ -38,7 +39,8 @@ public class BrowseDao {
 
     public GetMainRes getSeriesOrMovieMain(String browseType) {
         String getSeriesOrMovieMainQuery = "SELECT id, title, ageRate, summary, type, previewUrl, logoImgUrl, mainImgUrl FROM Content " +
-                "WHERE type = ? AND logoImgUrl != 'N' ORDER BY RAND() LIMIT 1";
+                "WHERE type = ? AND logoImgUrl != 'N' AND releaseDate <= current_timestamp " +
+                "ORDER BY RAND() LIMIT 1";
         String getSeriesOrMovieMainParams = browseType;
         return this.jdbcTemplate.queryForObject(getSeriesOrMovieMainQuery,
                 (rs, rowNum) -> new GetMainRes(
@@ -64,8 +66,9 @@ public class BrowseDao {
 
     public List<GetGenreMovieRes> getGenreMovies(String genre) {
         String getGenreMoviesQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage " +
-                "from Content where id in (select contentId from GenreContent where genreId in (select id from Genre where name = ?)) " +
-                "and type = 'M'";
+                "from Content " +
+                "where id in (select contentId from GenreContent where genreId in (select id from Genre where name = ?)) " +
+                "  and type = 'M' and releaseDate <= current_timestamp";
         String getGenreMoviesParams = genre;
         return this.jdbcTemplate.query(getGenreMoviesQuery,
                 (rs, rowNum) -> new GetGenreMovieRes(
@@ -81,9 +84,10 @@ public class BrowseDao {
     }
 
     public List<GetGenreSeriesRes> getGenreSeries(String genre) {
-        String getGenreSeriesQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, percentage, newEpisode " +
-                "from Content where id in (select contentId from GenreContent where genreId in (select id from Genre where name = ?)) " +
-                "and type = 'S'";
+        String getGenreSeriesQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage " +
+                "from Content " +
+                "where id in (select contentId from GenreContent where genreId in (select id from Genre where name = ?)) " +
+                "  and type = 'S' and releaseDate <= current_timestamp";
         String getGenreSeriesParams = genre;
         return this.jdbcTemplate.query(getGenreSeriesQuery,
                 (rs, rowNum) -> new GetGenreSeriesRes(
@@ -131,7 +135,8 @@ public class BrowseDao {
 
     public List<GetLatestRes> getLatest() {
         String getLatestQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage, newEpisode " +
-                "from Content order by releaseDate desc limit 12";
+                "from Content where releaseDate <= current_timestamp " +
+                "order by releaseDate desc limit 12";
         return this.jdbcTemplate.query(getLatestQuery,
                 (rs, rowNum) -> new GetLatestRes(
                         rs.getLong("id"),

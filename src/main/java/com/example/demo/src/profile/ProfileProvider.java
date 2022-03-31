@@ -51,6 +51,16 @@ public class ProfileProvider {
     }
 
     public GetProfileInfoRes getProfileInfo(long profileIdx) throws BaseException {
+        int profileExists;
+        try {
+            profileExists = checkProfileExists(profileIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(profileExists == 0) {
+            throw new BaseException(PROFILE_NOT_EXISTS);
+        }
+
         try {
             GetProfileInfoRes getProfileInfoRes = profileDao.getProfileInfo(profileIdx);
             return getProfileInfoRes;
@@ -101,6 +111,14 @@ public class ProfileProvider {
         }
         else {
             throw new BaseException(FAILED_TO_PROFILE_LOGIN);
+        }
+    }
+
+    public int checkProfileExists(long profileIdx) throws BaseException {
+        try {
+            return profileDao.checkProfileExists(profileIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
         }
     }
 }
