@@ -84,6 +84,8 @@ com/example/demo/src/browse/model/GetSoonRes.java
  com.example.demo.src.browse.model.GetSoonRes
 com/example/demo/src/browse/model/GetSearchRes.java
  com.example.demo.src.browse.model.GetSearchRes
+com/example/demo/src/detail/model/GetContentByActorRes.java
+ com.example.demo.src.detail.model.GetContentByActorRes
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
 com/example/demo/src/oauth/OauthService.java

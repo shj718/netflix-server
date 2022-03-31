@@ -42,6 +42,7 @@ public enum BaseResponseStatus {
     INVALID_BROWSE_TYPE(false,2028,"홈 화면은 H, 시리즈 화면은 S, 영화 화면은 M을 입력해주세요"),
     EMPTY_GENRE_REQUEST(false,2029,"장르 이름을 입력해주세요."),
     EMPTY_PROFILE_NAME(false,2030,"수정할 프로필 이름을 입력해주세요."),
+    EMPTY_ACTOR_NAME(false,2031,"출연자 이름을 입력해주세요."),
 
 
     /**
@@ -71,6 +72,7 @@ public enum BaseResponseStatus {
     DETAIL_TRAILER_NOT_EXISTS(false,3030,"예고편 및 다른 영상이 존재하지 않는 콘텐츠입니다."),
     DETAIL_SEASON_NOT_EXISTS(false,3031,"존재하지 않는 시즌입니다."),
     DETAIL_TYPE_NOT_MOVIE(false,3032,"해당 콘텐츠는 영화가 아닙니다."),
+    CONTENT_BY_ACTOR_FAIL(false,3033,"존재하지 않는 출연자 이름이거나 출연자의 공개된 작품이 존재하지 않습니다."),
 
 
 

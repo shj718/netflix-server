@@ -306,4 +306,32 @@ public class DetailProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<GetContentByActorRes> getContentsByActor(String actorName) throws BaseException {
+        int actorExists;
+        try {
+            // 현재 공개된 컨텐츠에 출연한 해당 이름의 배우가 존재하는지 체크
+            actorExists = checkActor(actorName);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+        if(actorExists == 0) {
+            throw new BaseException(CONTENT_BY_ACTOR_FAIL);
+        }
+
+        try {
+            List<GetContentByActorRes> getContentByActorRes = detailDao.getContentsByActor(actorName);
+            return getContentByActorRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkActor(String actorName) throws BaseException {
+        try {
+            return detailDao.checkActor(actorName);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

@@ -219,4 +219,31 @@ public class DetailController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 특정 배우의 출연작 조회 API
+     * [GET] /detail/others/actor
+     * @return BaseResponse<List<GetContentByActorRes>>
+     */
+    @ResponseBody
+    @GetMapping("/others/actor")
+    public BaseResponse<List<GetContentByActorRes>> getContentsByActor(@RequestParam long userIdx, @RequestParam long profileIdx, @RequestParam String actorName) {
+        try {
+            //jwt에서 idx 추출.
+            long userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+
+            if(actorName == null) {
+                return new BaseResponse<>(EMPTY_ACTOR_NAME);
+            }
+
+            List<GetContentByActorRes> getContentByActorRes = detailProvider.getContentsByActor(actorName);
+            return new BaseResponse<>(getContentByActorRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

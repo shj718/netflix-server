@@ -218,4 +218,41 @@ public class DetailDao {
                         rs.getString("productionYear")),
                 getSimilarMoviesParams);
     }
+
+    public int checkActor(String actorName) {
+        String checkActorQuery = "select exists(select name " +
+                "              from Actor " +
+                "              where name = ? " +
+                "                and status = 'A' " +
+                "                and id in (select actorId " +
+                "                           from ActorContent " +
+                "                           where contentId in ( " +
+                "                               select id " +
+                "                               from Content " +
+                "                               where releaseDate <= current_timestamp " +
+                "                           )))";
+        String checkActorParams = actorName;
+        return this.jdbcTemplate.queryForObject(checkActorQuery,
+                int.class,
+                checkActorParams);
+    }
+
+    public List<GetContentByActorRes> getContentsByActor(String actorName) {
+        String getContentsByActorQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage, newEpisode from Content " +
+                "where id in (select distinct contentId from ActorContent where actorId in (select id from Actor where name = ?)) " +
+                "and releaseDate <= current_timestamp";
+        String getContentByActorParams = actorName;
+        return this.jdbcTemplate.query(getContentsByActorQuery,
+                (rs, rowNum) -> new GetContentByActorRes(
+                        rs.getLong("id"),
+                        rs.getString("title"),
+                        rs.getLong("ageRate"),
+                        rs.getString("type"),
+                        rs.getString("thumbnailUrl"),
+                        rs.getString("previewUrl"),
+                        rs.getString("runningTime"),
+                        rs.getString("percentage"),
+                        rs.getString("newEpisode")),
+                getContentByActorParams);
+    }
 }
