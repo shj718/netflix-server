@@ -38,6 +38,8 @@ com/example/demo/src/profile/ProfileDao.java
  com.example.demo.src.profile.ProfileDao
 com/example/demo/src/browse/model/GetLatestRes.java
  com.example.demo.src.browse.model.GetLatestRes
+com/example/demo/src/oauth/OauthProvider.java
+ com.example.demo.src.oauth.OauthProvider
 com/example/demo/src/mylist/MyListService.java
  com.example.demo.src.mylist.MyListService
 com/example/demo/config/secret/Secret.java
@@ -50,6 +52,8 @@ com/example/demo/src/browse/BrowseService.java
  com.example.demo.src.browse.BrowseService
 com/example/demo/src/detail/model/GetSimilarMovieRes.java
  com.example.demo.src.detail.model.GetSimilarMovieRes
+com/example/demo/src/oauth/model/SocialLoginRes.java
+ com.example.demo.src.oauth.model.SocialLoginRes
 com/example/demo/src/mylist/MyListDao.java
  com.example.demo.src.mylist.MyListDao
 com/example/demo/src/user/UserService.java
@@ -80,6 +84,8 @@ com/example/demo/src/browse/model/GetSearchRes.java
  com.example.demo.src.browse.model.GetSearchRes
 com/example/demo/src/user/model/PostLoginRes.java
  com.example.demo.src.user.model.PostLoginRes
+com/example/demo/src/oauth/OauthService.java
+ com.example.demo.src.oauth.OauthService
 com/example/demo/src/browse/model/TopTen.java
  com.example.demo.src.browse.model.TopTen
 com/example/demo/src/user/UserDao.java
@@ -112,6 +118,8 @@ com/example/demo/src/likehate/LikeHateService.java
  com.example.demo.src.likehate.LikeHateService
 com/example/demo/src/profile/model/PostProfileReq.java
  com.example.demo.src.profile.model.PostProfileReq
+com/example/demo/src/oauth/OauthController.java
+ com.example.demo.src.oauth.OauthController
 com/example/demo/src/likehate/model/PostHateReq.java
  com.example.demo.src.likehate.model.PostHateReq
 com/example/demo/src/browse/BrowseController.java
@@ -141,6 +149,8 @@ com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
 com/example/demo/src/user/UserProvider.java
  com.example.demo.src.user.UserProvider
+com/example/demo/src/oauth/OauthDao.java
+ com.example.demo.src.oauth.OauthDao
 com/example/demo/src/profile/model/Profile.java
  com.example.demo.src.profile.model.Profile
 com/example/demo/src/detail/model/GetDetailRes.java

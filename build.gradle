@@ -58,6 +58,9 @@ dependencies {
     // CORS
     testImplementation 'org.apache.httpcomponents:httpclient'
 
+    // gson
+    implementation 'com.google.code.gson:gson'
+
 }
 
 test {
