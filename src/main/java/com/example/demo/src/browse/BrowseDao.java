@@ -84,7 +84,7 @@ public class BrowseDao {
     }
 
     public List<GetGenreSeriesRes> getGenreSeries(String genre) {
-        String getGenreSeriesQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, runningTime, percentage " +
+        String getGenreSeriesQuery = "select id, title, ageRate, type, thumbnailUrl, previewUrl, percentage, newEpisode " +
                 "from Content " +
                 "where id in (select contentId from GenreContent where genreId in (select id from Genre where name = ?)) " +
                 "  and type = 'S' and releaseDate <= current_timestamp";
