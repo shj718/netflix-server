@@ -94,7 +94,7 @@ public class UserService {
 
             long membershipIdx = userDao.createMembership(postPaymentReq.getMembershipType(), membership); // 멤버십 생성
             long userIdx = postPaymentReq.getUserIdx();
-            int membershipResult = userDao.updateUserMembership(userIdx, membershipIdx); // 회원가입한 유저의 User테이블에 멤버십 idx 넣기
+            int membershipResult = userDao.updateUserMembership(userIdx, membershipIdx); // 회원가입한 유저의 User 테이블에 멤버십 idx 넣기
             if(membershipResult == 0) {
                 throw new BaseException(DATABASE_ERROR);
             }
@@ -118,8 +118,10 @@ public class UserService {
             Membership membership = new Membership(setMembership(type).getVideoQuality(), setMembership(type).getPrice(),
                     setMembership(type).getAccessLimit()); // 멤버십 정보 세팅하기
 
+            // 멤버십 생성
             long membershipIdx = userDao.createMembership(postMembershipReq.getMembershipType(), membership);
-            // 현재 로그인중인 유저의 User테이블에도 멤버십 Idx 넣어주기
+
+            // 유저의 User 테이블에 멤버십 Idx 넣어주기
             int membershipResult = userDao.updateUserMembership(postMembershipReq.getUserIdx(), membershipIdx);
             if(membershipResult == 0) {
                 throw new BaseException(DATABASE_ERROR);
