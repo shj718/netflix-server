@@ -8,7 +8,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-// 내가 추가
+// 추가
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
 import com.example.demo.utils.AES128;
@@ -126,7 +126,6 @@ public class OauthService {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
-            // TODO: 이 밑의 id 부분 내가 int형을 long형으로 변경함. 이렇게 해도 되는지 체크하자!
             long id = element.getAsJsonObject().get("id").getAsLong();
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
             String email = "";
@@ -134,29 +133,25 @@ public class OauthService {
                 email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
             }
 
-            // TODO: 저 id는 카카오톡에서의 이 유저 식별자이므로 아이디,비번과 동일한 힘을 가짐. 이제 이 유저를 이 이메일로 회원가입시킨 후, userIdx랑 JWT를 리턴해주기
-            // TODO: 음 회원가입 안시키고 Jwt만 주는건가? 아닌데 회원가입시키는거 맞음. 근데 얘는 그럼 다음번에 로그인할땐 뭘로 로그인해? 또 소셜로그인.
-            // TODO: 이때는 저 이메일이 가입되어 있는 이메일이므로 그냥 바로 userIdx랑 Jwt 줌 (바로 가입시키는게 아니라 User 도메인의 checkEmail로 중복 확인하자!)
+            // id는 카카오톡에서의 이 유저 식별자이므로 아이디,비번과 동일한 힘을 가짐. 이 유저를 이 이메일로 회원가입시킨 후, userIdx 와 JWT 를 리턴해주기
             long userIdx;
             String jwt;
             int hasMembership;
             try {
                 int emailExists = oauthProvider.checkEmail(email);
-                // TODO: emailExists==0이면 회원가입(User테이블에 insert 후, userIdx랑 jwt 리턴), ==1이면 로그인(insert안하고 걍 userIdx랑 jwt 리턴).
-
+                // emailExists==0 이면 회원가입(User 테이블에 insert 후, userIdx 와 jwt 리턴), ==1 이면 로그인(userIdx 와 jwt 리턴)
                 if(emailExists == 0) {
-                    userIdx = oauthDao.createKakaoUser(email, id); // id를 비번 칼럼에 넣으면 되겠네!!
+                    userIdx = oauthDao.createKakaoUser(email, id); // id를 비밀번호 칼럼에 삽입
                 }
-                else { // 이미 회원인 경우. 로그인 시켜주기. getUserIdx로 userIdx 가져오기.
+                else { // 이미 회원인 경우. 로그인 시켜주기. getUserIdx 로 userIdx 가져오기.
                     userIdx = oauthProvider.getKakaoUserIdx(email);
                 }
-                // TODO: 원래 얘를 리턴해주고 Controller 에서도 이걸 리턴해줘야 하지만 우리는 일단 print 하자.
-                // TODO: 프린트 성공하면 리턴하고 포스트맨으로 테스트해보자. (포스트맨에 카카오톡 로그인 Url 치면 HTML파일 날라옴)
+
                 System.out.println("userIdx : " + userIdx);
-                // TODO: JWT 발급하고 걔도 print 하기!
+                // JWT 발급
                 jwt = jwtService.createJwt(userIdx);
                 System.out.println("jwt : " + jwt);
-                // TODO: 이 유저가 status 가 'A'인 멤버십을 가지고 있는지 여부 체크
+                // 이 유저가 status 가 'A'인 멤버십을 가지고 있는지 여부 체크
                 hasMembership = oauthDao.checkMembership(email);
                 System.out.println("has Membership : " + hasMembership);
 
@@ -171,7 +166,6 @@ public class OauthService {
 
             br.close();
 
-            // TODO: 이제 void 형이 아닌 return 값이 있는 함수로 바꿔보자!
             return new SocialLoginRes(userIdx, jwt, hasMembership);
 
         } catch (IOException e) {

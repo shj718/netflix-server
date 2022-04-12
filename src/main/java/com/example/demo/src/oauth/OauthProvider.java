@@ -17,8 +17,6 @@ import static com.example.demo.config.BaseResponseStatus.*;
 //Provider : Read의 비즈니스 로직 처리
 @Service
 public class OauthProvider {
-    // TODO: 중복 이메일인지 체크 (아 여기다가 하면 여기에다가도 User 도메인에 있는 프로세스들 복붙해야하네)
-    // TODO: 복붙하지말고, 이렇게 중복이메일이면, 자동으로 로그인된다. 그래서 서비스를 이용할 수 있다만 말하면 됨.
 
     private final OauthDao oauthDao;
     private final JwtService jwtService;
