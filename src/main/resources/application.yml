@@ -9,6 +9,6 @@ spring:
     platform: mysql
     url: jdbc:mysql://rt.cyqhi6jpccpq.ap-northeast-2.rds.amazonaws.com/rtflix?autoReconnect=true # 변경해주세요
     username: admin # 변경해주세요
-    password: hyejun1202 # 변경해주세요
+    password:  # 변경해주세요
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     # driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
